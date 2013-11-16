@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="jumbotron about">
+    <div class="col-sm-4 tile">
+        <img src="{{ STATIC_URL}}img/icons/png/Clipboard.png" />
+        <h4>Ideologia</h4>
+        <p>A ideologia deste portal é extremamente objetiva. Todos os usuários que tiverem o aplicativo instalado em seus smartphones poderão enviar informações para nós. Tornando-se um portal totalmente colaborativo centralizando suas notícias.</p>
+    </div>
+    <div class="col-sm-4 tile">
+        <img src="{{ STATIC_URL}}img/icons/png/Watches.png" />
+        <h4>Conteúdo</h4>
+        <p>Todas as informações contidas no site são geradas pelos próprios usuários.
+        A geração deste conteúdo acontece através do aplicativo para iPhone que cada usuário deve possuir instalado para
+        enviar informações.</p>        
+    </div>
+    <div class="col-sm-4 tile">
+        <img src="{{ STATIC_URL}}img/icons/png/Retina-Ready.png" />
+        <h4>Confiança</h4>
+        <p>Nossos usuários são o máximo. Além deles gerarem a informação, também controlam todo e qualquer conteúdo que considere inadequado.
+            Nos detalhes de cada notícia possui um link que possibilidade marcar aquela publicação como inapropriada. Assim que uma informação tiver 3 negativas ela automaticamente é bloqueada e passa a depender da revisão para liberação.</p>
+    </div>
+</div>
+{% endblock content %}

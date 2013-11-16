@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+{% block content %}
+
+<div class="col-sm-6">
+    <form action="/contato/" method="POST">
+        {% csrf_token %}
+        <h4>Contato</h4>
+        <p class="leap">utilize o formulário de contato abaixo para entrar em contato conosco</p>
+        {% if sended %}<h6>Mensagem enviada com sucesso!</h6>{% endif %}
+        {{ form.name|add_class:"form-control"|attr:"placeholder:Nome"|add_error_class:"form-control-error" }}
+        {{ form.email|add_class:"form-control"|attr:"placeholder:E-mail" }}
+        {{ form.message|add_class:"form-control"|attr:"placeholder:Digite aqui sua mensagem" }}
+        <button type="submit" class="btn btn-primary btn-lg pull-right" >Enviar</button>
+    </form>
+</div>
+{% endblock content %}

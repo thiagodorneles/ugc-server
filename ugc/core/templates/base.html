@@ -1,0 +1,223 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{{ STATIC_URL}}css/bootstrap.min.css" media="screen">
+  <link rel="stylesheet" href="{{ STATIC_URL}}css/timeline.css" media="screen">
+  <link rel="stylesheet" href="{{ STATIC_URL}}css/flat-ui.css" media="screen">
+  <title>VC Reporter</title>
+
+  <style>
+    html, body {
+      height: 100%;
+    }
+    #wrap {
+      min-height: 100%;
+      height: auto !important;
+      height: 100px;
+      margin: 0 auto -80px;
+      padding: 0 0 80px;
+    }
+
+    body {
+      width: 100%;
+      background: #eceef0;
+      /*background: url(/static/img/brushed.png) no-repeat center center fixed;
+      -webkit-background-size: cover;
+      -moz-background-size: cover;
+      -o-background-size: cover;
+      background-size: cover;*/
+    }
+    img {
+      max-width: 100%;
+    }
+    .jumbotron-midnight {
+      margin: 0;
+      background: #34495e;
+      color: white;
+      padding-top: 10px;
+      padding-bottom: 10px;
+    }
+    .appstore {
+      clear: right;
+      margin-top: 5px;
+      width : 150px;
+    } 
+    .navbar {
+      border-radius: 0;
+    }
+    .brand {
+      width: 500px;
+    }
+    .brand img {
+      width: 100px;
+      margin-right: 20px;
+      float: left;
+    } 
+
+    .item {
+      padding: 5px;
+      margin: 0 10px 10px 0;
+      background: #ecf0f1;
+      /*border: 2px solid #bdc3c7;*/
+      border-radius: 5px;
+    }
+    .info {
+      margin-top: 10px;
+      height: 20px;
+      font-size: 14px;
+      color: gray;
+
+    }
+    .user {
+      float: left;
+    }
+    .data {
+      float: right;
+    }
+    .search-bar {
+      background:#2c3e50;
+    }
+    .search-bar input {
+      margin: 0;
+    }
+    .search-bar .navbar-form {
+      padding: 0;
+    }
+    .section-content {
+      margin-top: 20px;
+      margin-bottom: 20px;
+    }
+
+    .tags ul {
+      margin: 0;
+      padding: 0;
+    }
+    .tags ul li {
+      list-style: none;
+      float: left;
+      padding: 5px;
+    }
+    .tags ul li a {
+      color: #2c3e51;
+      text-decoration: underline;
+    }
+    .tags ul li:hover {
+      background: #2c3e51;
+      border-radius: 5px;
+      text-decoration: underline;
+      color: white;
+    }
+    .tags ul li:hover a {
+      color: white;
+    }
+    footer {
+      background: #34495e;
+      /*margin-top: 30px;*/
+      height: 80px;
+    }
+    footer .nav>li>a:hover, footer .nav>li>a:focus {
+      background: transparent;
+    }
+    footer .container {
+      height:60px;
+    }
+    footer .container::before, footer .container::after {
+      content: ' ';
+      height: 10px;
+    }
+
+    .form-control {
+        margin-bottom: 10px;
+    }
+    .about .tile img {
+      width: 100px;
+    }
+
+  </style>
+</head>
+<body>  
+  <div id="wrap">
+    <!-- header -->
+    <section>
+      <div class="jumbotron jumbotron-midnight">
+        <div class="container">
+          <div class="navbar-collapse collapse">
+            <div class="pull-left brand">
+              <img src="{{ STATIC_URL}}/img/icons/png/Infinite-Loop.png" alt="">
+              <h3>vc reporter</h3>
+              <p class="lead">portal colaborativo de envio de notícias</p>
+            </div>
+            <ul class="nav navbar-nav navbar-right">
+              <li><a href="/">Página inicial</a></li>
+              <li><a href="/sobre/">Sobre</a></li>
+              <li><a href="/contato/">Contato</a></li>
+            </ul>
+            <div class="appstore pull-right hidden-xs">
+              <a href="http://apple.com">
+                <img src="/static/img/appstore.png" alt="">
+              </a>
+            </div>
+          </div>      
+        </div>
+      </div>
+    </section>
+    <!-- barra pesquisa -->
+    <section class="search-bar">
+      <div class="container">
+        <div class="col-sm-10">
+          <form class="navbar-form">        
+            <div class="row">
+              <div class="col-sm-10">
+                <input type="text" class="form-control" placeholder="Digite qualquer coisa para pesquisar (assunto, contexto, localização ...)">
+              </div>
+              <div class="col-sm-1">
+                <button type="submit" class="btn btn-primary">Pesquisar!</button>
+              </div>
+            </div>
+          </form>
+      </div>
+      </div>
+    </section>
+    <!-- conteudo -->
+    <section class="section-content">
+      <div class="container">
+        {% block content %}
+        {% endblock content %}
+      </div>
+    </section>
+  </div>
+
+  <footer>
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-2 navbar-brand">
+          <a href="/">vc reporter</a>
+        </div>
+        <div class="col-sm-10">
+         <ul class="nav navbar-nav navbar-right">
+            <li><a href="/">Página inicial</a></li>
+            <li><a href="/sobre/">Sobre</a></li>
+            <li><a href="/contato/">Contato</a></li>
+          </ul>
+        </div>  
+      </div>
+    </div>
+  </footer>
+
+  <script src="{{ STATIC_URL}}js/jquery-1.10.2.min.js"></script>
+  <script src="{{ STATIC_URL}}js/salvattore.min.js"></script>
+
+  <script>
+    $(function(){
+      $("ul").tagcloud({type:"list"}).find("li").tsort();
+
+    });
+
+
+  </script>
+
+
+  
+</body>
+</html>
