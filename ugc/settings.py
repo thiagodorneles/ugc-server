@@ -2,6 +2,7 @@
 import os
 import dj_database_url
 from unipath import Path
+from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS as TCP
 
 PROJECT_DIR = Path(__file__).parent
 DEBUG = os.environ.get('DEBUG') == 'True'
@@ -120,6 +121,10 @@ TEMPLATE_DIRS = (
     # Don't forget to use absolute paths, not relative paths.
 )
 
+TEMPLATE_CONTEXT_PROCESSORS = TCP + (
+    'django.core.context_processors.request',
+)
+
 INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -128,9 +133,11 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # Uncomment the next line to enable the admin:
-    # 'django.contrib.admin',
+    
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
+    'suit',
+    'django.contrib.admin',
     'south',
     'widget_tweaks',
     'ugc.core',
@@ -182,3 +189,33 @@ EMAIL_HOST_USER = 'thiagodornelesrs@gmail.com'
 EMAIL_HOST_PASSWORD = 'th#2go29'
 EMAIL_PORT = 587
 EMAIL_SUBJECT_PREFIX = '[vc reporter]'
+
+# Suit customize
+SUIT_CONFIG = {
+    # header
+    'ADMIN_NAME': 'vc reporter',
+    # 'HEADER_DATE_FORMAT': 'l, j. F Y',
+    # 'HEADER_TIME_FORMAT': 'H:i',
+
+    # forms
+    # 'SHOW_REQUIRED_ASTERISK': True,  # Default True
+    'CONFIRM_UNSAVED_CHANGES': True, # Default True
+
+    # menu
+    # 'SEARCH_URL': '/admin/auth/user/',
+    # 'MENU_ICONS': {
+    #    'sites': 'icon-leaf',
+    #    'auth': 'icon-lock',
+    # },
+    # 'MENU_OPEN_FIRST_CHILD': True, # Default True
+    # 'MENU_EXCLUDE': ('auth.group',),
+    # 'MENU': (
+    #     'sites',
+    #     {'app': 'auth', 'icon':'icon-lock', 'models': ('user', 'group')},
+    #     {'label': 'Settings', 'icon':'icon-cog', 'models': ('auth.user', 'auth.group')},
+    #     {'label': 'Support', 'icon':'icon-question-sign', 'url': '/support/'},
+    # ),
+
+    # misc
+    'LIST_PER_PAGE': 15
+}
