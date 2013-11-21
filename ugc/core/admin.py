@@ -1,8 +1,6 @@
 # coding: utf-8
 from django.contrib import admin
-from ugc.core.models import Publish
-# from ugc.core.models import Tags
-# from ugc.core.models import Midia
+from ugc.core.models import Publish,Tag
 
 class PublishAdmin(admin.ModelAdmin):
     list_display = ('title', 'created_at', 'status')
@@ -10,6 +8,14 @@ class PublishAdmin(admin.ModelAdmin):
     date_hierarchy = 'created_at'
     list_filter = ['created_at']
 
+class TagAdmin(admin.ModelAdmin):
+    list_display = ('tag', 'created_at', 'status')
+    search_fields = ('tag', 'created_at', 'status')
+    date_hierarchy = 'created_at'
+    list_filter = ['created_at']
+
+
+
 admin.site.register(Publish, PublishAdmin)
-# admin.site.register(Tags)
+admin.site.register(Tag, TagAdmin)
 # admin.site.register(Midia)
