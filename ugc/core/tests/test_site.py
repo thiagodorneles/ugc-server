@@ -6,6 +6,7 @@ from ugc.core.models import Publish
 
 class HomepageTest(TestCase):
     def setUp(self):
+        Publish.objects.create(title='Noticia', description='Descricao')
         self.resp = self.client.get(r('core:homepage'))
 
     def test_get(self):
@@ -23,6 +24,11 @@ class HomepageTest(TestCase):
         self.assertContains(self.resp, '<button', 1)
         self.assertContains(self.resp, 'type="text"', 1)
         self.assertContains(self.resp, 'type="submit"', 1)
+
+    def test_context(self):
+        'Publish must be in context'
+        total = len(self.resp.context['publishs'])
+        self.assertEqual(1, total)
 
 class DetailTest(TestCase):
     def setUp(self):

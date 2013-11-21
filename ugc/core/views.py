@@ -5,13 +5,16 @@ from django.shortcuts import get_object_or_404
 from ugc.core.models import Publish, Tag
 from ugc.core.forms import ContactForm
 
-def homepage(request):
-    return render(request, 'core/publish_list.html')
+# class HomepageView(TemplateView):
+#     template_name = ''
 
-def detail(request, pk):
-    publish = get_object_or_404(Publish, pk=pk)
-    context = {'publish': publish }
-    return render(request, 'core/publish_detail.html', context)
+class PublishDetailView(DetailView):
+    model = Publish
+
+def homepage(request):
+    publishs = Publish.objects.all()
+    context = { 'publishs' : publishs }
+    return render(request, 'core/publish_list.html', context)
 
 def about(request):
     return render(request, 'about.html')

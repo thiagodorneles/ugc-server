@@ -1,14 +1,10 @@
 from django.conf.urls import patterns, include, url
-
-# Uncomment the next two lines to enable the admin:
 from django.contrib import admin
+
 admin.autodiscover()
 
-urlpatterns = patterns('ugc.core.views',
-    url(r'^$', 'homepage', name='homepage'),
-    url(r'^publicacao/(\d+)/$', 'detail', name='detail'),
-    url(r'^contato/$', 'contact', name='contact'),
-    url(r'^sobre/$', 'about', name='about'),
+urlpatterns = patterns('',
+    url(r'', include('ugc.core.urls', namespace='core')),
     # Examples:
     # url(r'^$', 'ugc.views.home', name='home'),
     # url(r'^ugc/', include('ugc.foo.urls')),
