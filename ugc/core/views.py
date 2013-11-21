@@ -1,13 +1,17 @@
 # coding: utf-8
 from django.shortcuts import render
+from django.views.generic import TemplateView, DetailView
+from django.shortcuts import get_object_or_404
+from ugc.core.models import Publish, Tag
 from ugc.core.forms import ContactForm
-from django.http import HttpResponseRedirect
 
 def homepage(request):
-    return render(request, 'index.html')
+    return render(request, 'core/publish_list.html')
 
 def detail(request, pk):
-    return render(request, 'detail.html')    
+    publish = get_object_or_404(Publish, pk=pk)
+    context = {'publish': publish }
+    return render(request, 'core/publish_detail.html', context)
 
 def about(request):
     return render(request, 'about.html')
