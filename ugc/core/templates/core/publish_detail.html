@@ -1,18 +1,20 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<h3>Título da noticia</h3>
+<h3>{{ publish.title }}</h3>
 <div class="detail-info">
     <div class="pull-left">
-        <div class="date">20/09/2013</div>
+        <div class="date">{{ publish.created_at|date:"d/m/Y" }} </div>
         <div class="user">Usuário</div>
     </div>
-    <div class="tags pull-right">esporte, acidente</div>
+    <div class="tags pull-right">
+        {% for tag in publish.tags.all %}
+            | {{ tag }}
+        {% endfor %}
+    </div>
 </div>
 <div class="detail-content">
-    <p>
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Soluta, quaerat, ipsam, ea veritatis repellendus dolorum nihil quisquam reiciendis suscipit fugiat vel dolorem officia. Quis, iusto at laboriosam consequatur labore a.
-    </p>
+    {{ publish.description }}
 </div>
 <div class="midias">
     <h6>Fotos</h6>
@@ -20,9 +22,11 @@
     <img src="http://s2.glbimg.com/Hd5rhgoRAFIptEP6-Jg40sZbzZM=/0x54:1500x893/220x123/s.glbimg.com/es/ge/f/original/2013/09/30/robertomancini_galatasaray_site_oficial.jpg" alt="">
     <img src="http://s2.glbimg.com/PB9Mv09ZmfTtOxhUpFlPmnJv6oI=/0x0:950x530/220x123/s.glbimg.com/es/ge/f/original/2013/09/24/neymar_golbarcelona_afp.jpg_95.jpg" alt="">
 </div>
+{% if publish.city %}
 <div class="detail-map">
     <h6>Localização</h6>
     <img src="http://perlbal.hi-pi.com/blog-images/384422/gd/1250775186/MAPA-LOCALIZACAO-DO-IMOVEL.jpg" />
 </div>
+{% endif %}
 
 {% endblock content %}
