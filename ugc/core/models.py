@@ -5,13 +5,14 @@ from django.utils.translation import ugettext_lazy as _
 class Publish(models.Model):
     title       = models.CharField(_('Titulo'), max_length=100)
     description = models.TextField(_('Descricao'))
-    created_at  = models.DateTimeField(_('Data/Hora'))
+    created_at  = models.DateTimeField(_('Criado em'), auto_now_add=True)
     location    = models.CharField(_('Localizacao'), max_length=50, blank=True)
     city        = models.CharField(_('Cidade'), max_length=100, blank=True)
-    status      = models.BooleanField(_('Status'))
-    # tags        = models.ManyToManyField('Tag', verbose_name=_('Tag'))
+    status      = models.BooleanField(_('Status'), default=True)
+    tags        = models.ManyToManyField('Tag', verbose_name=_('Tag'), related_name='publish', symmetrical=False)
     
     class Meta:
+        unique_together = ('title', 'description')
         ordering = ['-created_at']
         verbose_name = _(u'Publicação')
         verbose_name_plural = _(u'Publicações')
@@ -19,18 +20,20 @@ class Publish(models.Model):
     def __unicode__(self):
         return self.title
 
-# class Tags(models.Model):
-#     tag = models.CharField(_('Tag'), max_length=30)
+class Tag(models.Model):
+    tag        = models.CharField(_('Tag'), max_length=30, unique=True)
+    created_at = models.DateTimeField(_('Criado em'), auto_now_add=True)
+    status = models.BooleanField(_(u'Situação'), default=True)
 
-#     class Meta:
-#         ordering = ['tag']
-#         verbose_name = _(u'Tag')
-#         verbose_name_plural = _(u'Tags')
+    class Meta:
+        ordering = ['tag']
+        verbose_name = _(u'Tag')
+        verbose_name_plural = _(u'Tags')
     
-#     def __unicode__(self):
-#         return self.tag
+    def __unicode__(self):
+        return self.tag
     
-# class Midia(models.Model):
+# class Media(models.Model):
 #     content = models.URLField(_('Arquivo'))
 #     content_type = models.CharField(_('Tipo'), max_length=100)
 #     publish = models.ForeignKey('Publish')
