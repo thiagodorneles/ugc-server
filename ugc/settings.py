@@ -132,15 +132,15 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # Uncomment the next line to enable the admin:
-    
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
     'suit',
     'django.contrib.admin',
     'south',
     'widget_tweaks',
+    'rest_framework',
     'ugc.core',
+    'ugc.api',
 )
 
 # A sample logging configuration. The only tangible logging
@@ -219,3 +219,9 @@ SUIT_CONFIG = {
     # misc
     'LIST_PER_PAGE': 15
 }
+
+# REST_FRAMEWORK = {
+#     'DEFAULT_RENDERER_CLASSES': (
+#         'rest_framework.renderers.JSONRenderer',
+#     )
+# }

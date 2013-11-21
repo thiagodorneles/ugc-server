@@ -8,9 +8,7 @@
         <div class="user">Usuário</div>
     </div>
     <div class="tags pull-right">
-        {% for tag in publish.tags.all %}
-            | {{ tag }}
-        {% endfor %}
+        {{ publish.tags.all|join:', ' }}
     </div>
 </div>
 <div class="detail-content">
