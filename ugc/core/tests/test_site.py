@@ -1,10 +1,12 @@
 # coding: utf-8
 from django.test import TestCase
+from django.core.urlresolvers import reverse as r
 from ugc.core.forms import ContactForm
+from ugc.core.models import Publish
 
 class HomepageTest(TestCase):
     def setUp(self):
-        self.resp = self.client.get('/')
+        self.resp = self.client.get(r('core:homepage'))
 
     def test_get(self):
         'GET / must return status code 200.'
@@ -12,7 +14,7 @@ class HomepageTest(TestCase):
 
     def test_template(self):
         'Homepage must use template index.html'
-        self.assertTemplateUsed(self.resp, 'index.html')
+        self.assertTemplateUsed(self.resp, 'core/publish_list.html')
 
     def test_html(self):
         'Html must contain input controls'
@@ -24,7 +26,9 @@ class HomepageTest(TestCase):
 
 class DetailTest(TestCase):
     def setUp(self):
-        self.resp = self.client.get('/publicacao/1/')
+        publish = Publish(title='Noticia teste', description='Descricao da noticia')
+        publish.save()
+        self.resp = self.client.get(r('core:detail', args=[publish.id]))
 
     def test_get(self):
         'GET /publicacao/1/ shoud return status code 200.'
@@ -32,11 +36,16 @@ class DetailTest(TestCase):
 
     def test_template(self):
         'Response shoud be a rendered template'
-        self.assertTemplateUsed(self.resp, 'detail.html')
+        self.assertTemplateUsed(self.resp, 'core/publish_detail.html')
+
+    def test_context(self):
+        'Publish must be in context'
+        publish = self.resp.context['publish']
+        self.assertIsInstance(publish, Publish)
 
 class AboutTest(TestCase):
     def setUp(self):
-        self.resp = self.client.get('/sobre/')
+        self.resp = self.client.get(r('core:about'))
 
     def test_get(self):
         'GET /sobre/ must return status code 200.'
@@ -48,7 +57,7 @@ class AboutTest(TestCase):
 
 class ContactTest(TestCase):
     def setUp(self):
-        self.resp = self.client.get('/contato/')
+        self.resp = self.client.get(r('core:contact'))
 
     def test_get(self):
         'GET /contato/ return status code 200'
@@ -86,7 +95,7 @@ class ContactPostTest(TestCase):
         data = dict(name='Thiago Dorneles',
                     email='thiagodorneles@me.com',
                     message='mensagem de teste')
-        self.resp = self.client.post('/contato/', data)
+        self.resp = self.client.post(r('core:contact'), data)
 
     # def test_post(self):
     #     'Valid POST should redirect to /contato/sucesso/'
