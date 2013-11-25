@@ -2,16 +2,36 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
+class User(models.Model):
+    name          = models.CharField(_('Nome'), max_length=100)
+    email         = models.EmailField(_('Email'), max_length=100)
+    created_at    = models.DateTimeField(_('Criado em'), auto_now_add=True)
+    image_url     = models.CharField(_('Avatar caminho'), max_length=100)
+    # Twitter
+    twitter_user  = models.CharField(_('Twitter username'), max_length=50)
+    twitter_id    = models.CharField(_('Twitter ID'), max_length=100)
+    twitter_token = models.CharField(_('Twitter Token'), max_length=100)
+
+    class Meta:
+        ordering = ['-created_at']
+        verbose_name = _(u'Usuário')
+        verbose_name_plural = _(u'Usuários')
+
+    def __unicode__(self):
+        return self.name
+
+
 class Publish(models.Model):
     title        = models.CharField(_('Titulo'), max_length=100)
     description  = models.TextField(_('Descricao'))
     created_at   = models.DateTimeField(_('Criado em'), auto_now_add=True)
-    location     = models.CharField(_('Localizacao'), max_length=50, blank=True)
+    location     = models.CharField(_(u'Localização'), max_length=50, blank=True)
     city         = models.CharField(_('Cidade'), max_length=100, blank=True)
     status       = models.BooleanField(_('Status'), default=True)
     tags         = models.ManyToManyField('Tag', verbose_name=_('Tag'), related_name='publish', symmetrical=False)
-    quant_views  = models.IntegerField(_('Visualizacoes'), default=0)
+    quant_views  = models.IntegerField(_(u'Visualizações'), default=0)
     quant_blocks = models.IntegerField(_('Bloqueios'), default=0)
+    user         = models.ForeignKey('User', verbose_name=_('Usuário'), default=1)
     
     class Meta:
         unique_together = ('title', 'description')

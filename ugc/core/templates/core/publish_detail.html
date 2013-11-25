@@ -5,7 +5,7 @@
 <div class="detail-info">
     <div class="pull-left">
         <div class="date">{{ publish.created_at|date:"d/m/Y" }} </div>
-        <div class="user">Usuário</div>
+        <div class="user">{{ publish.user }}</div>
     </div>
     <div class="tags pull-right">
         {{ publish.tags.all|join:', ' }}

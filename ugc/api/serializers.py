@@ -4,10 +4,11 @@ from ugc.core.models import Publish, Tag
 
 class PublishSerializer(serializers.ModelSerializer):
     tags = serializers.RelatedField(many=True)
+    user = serializers.RelatedField()
     class Meta:
         model = Publish
     	resource_name = 'publishs'
-        fields = ('title', 'description', 'created_at', 'location', 'city', 'status', 'tags')
+        fields = ('title', 'description', 'created_at', 'location', 'city', 'status', 'tags', 'user')
 
 class TagSerializer(serializers.ModelSerializer):
     class Meta:
