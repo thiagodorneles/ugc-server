@@ -6,11 +6,11 @@ class User(models.Model):
     name          = models.CharField(_('Nome'), max_length=100)
     email         = models.EmailField(_('Email'), max_length=100)
     created_at    = models.DateTimeField(_('Criado em'), auto_now_add=True)
-    image_url     = models.CharField(_('Avatar caminho'), max_length=100)
+    image_url     = models.CharField(_('Avatar caminho'), max_length=100, blank=True)
     # Twitter
-    twitter_user  = models.CharField(_('Twitter username'), max_length=50)
-    twitter_id    = models.CharField(_('Twitter ID'), max_length=100)
-    twitter_token = models.CharField(_('Twitter Token'), max_length=100)
+    twitter_user  = models.CharField(_('Twitter username'), max_length=50, blank=True)
+    twitter_id    = models.CharField(_('Twitter ID'), max_length=100, blank=True)
+    twitter_token = models.CharField(_('Twitter Token'), max_length=100, blank=True)
 
     class Meta:
         ordering = ['-created_at']
@@ -55,14 +55,15 @@ class Tag(models.Model):
     def __unicode__(self):
         return self.tag
     
-# class Media(models.Model):
+class Media(models.Model):
+    
 #     content = models.URLField(_('Arquivo'))
 #     content_type = models.CharField(_('Tipo'), max_length=100)
 #     publish = models.ForeignKey('Publish')
 
-#     # class Meta:
-#     #     verbose_name = _(u'Arquivo')
-#     #     verbose_name_plural = _(u'Arquivos')
+    class Meta:
+        verbose_name = _(u'Arquivo')
+        verbose_name_plural = _(u'Arquivos')
     
 #     def __unicode__(self):
 #         return content
