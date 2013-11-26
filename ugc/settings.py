@@ -222,7 +222,7 @@ SUIT_CONFIG = {
 
 REST_FRAMEWORK = {
     'PAGINATE_BY':10,
-    'DEFAULT_RENDERER_CLASSES': (
-        'rest_framework.renderers.JSONRenderer',
-    )
+    # 'DEFAULT_RENDERER_CLASSES': (
+    #     'rest_framework.renderers.JSONRenderer',
+    # )
 }
