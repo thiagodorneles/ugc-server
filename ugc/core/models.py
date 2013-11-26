@@ -31,7 +31,7 @@ class Publish(models.Model):
     tags         = models.ManyToManyField('Tag', verbose_name=_('Tag'), related_name='publish', symmetrical=False)
     quant_views  = models.IntegerField(_(u'Visualizações'), default=0)
     quant_blocks = models.IntegerField(_('Bloqueios'), default=0)
-    user         = models.ForeignKey('User', verbose_name=_('Usuário'), default=1)
+    user         = models.ForeignKey('User', verbose_name=_('Usuário'))
     
     class Meta:
         unique_together = ('title', 'description')
@@ -41,6 +41,13 @@ class Publish(models.Model):
         
     def __unicode__(self):
         return self.title
+
+    @property
+    def user_name(self):
+        """
+        Property created by used in /api/publishs/
+        """
+        return self.user.name
 
 class Tag(models.Model):
     tag        = models.CharField(_('Tag'), max_length=30, unique=True)
