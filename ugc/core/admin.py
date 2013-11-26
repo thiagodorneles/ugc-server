@@ -1,6 +1,6 @@
 # coding: utf-8
 from django.contrib import admin
-from ugc.core.models import Publish,Tag, User
+from ugc.core.models import Publish,Tag, User, Media
 
 class PublishAdmin(admin.ModelAdmin):
     list_display = ('title', 'created_at', 'status')
@@ -19,3 +19,4 @@ class TagAdmin(admin.ModelAdmin):
 admin.site.register(Publish, PublishAdmin)
 admin.site.register(Tag, TagAdmin)
 admin.site.register(User)
+admin.site.register(Media)
