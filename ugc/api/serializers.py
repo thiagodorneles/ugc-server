@@ -6,7 +6,6 @@ class PublishSerializer(serializers.ModelSerializer):
     tags = serializers.SlugRelatedField(many=True, slug_field='tag')
     user = serializers.SlugRelatedField(slug_field='id')
     user_name = serializers.Field(source = 'user_name')
-    created_at = serializers.DateTimeField(format='%Y-%m-%d %H:%M')
     
     class Meta:
         model = Publish
