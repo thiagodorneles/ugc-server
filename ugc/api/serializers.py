@@ -6,6 +6,7 @@ class PublishSerializer(serializers.ModelSerializer):
     tags = serializers.SlugRelatedField(many=True, slug_field='tag')
     user = serializers.SlugRelatedField(slug_field='id')
     user_name = serializers.Field(source = 'user_name')
+    created_at = serializers.DateTimeField(format='%Y-%m-%d %H:%M')
     
     class Meta:
         model = Publish
@@ -14,11 +15,13 @@ class PublishSerializer(serializers.ModelSerializer):
                   'user', 'user_name', 'quant_views', 'quant_blocks', )
 
 class TagSerializer(serializers.ModelSerializer):
+    created_at = serializers.DateTimeField(format='%Y-%m-%d %H:%M')
     class Meta:
         model = Tag
         fields = ('tag', 'created_at', 'status')
 
 class UserSerializer(serializers.ModelSerializer):
+    created_at = serializers.DateTimeField(format='%Y-%m-%d %H:%M')
     class Meta:
         model = User
         fields = ('name', 'email', 'created_at')
