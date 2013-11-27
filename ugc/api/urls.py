@@ -8,7 +8,7 @@ router.register(r'api/publishs', views.PublishViewSet)
 router.register(r'api/tags', views.TagViewSet)
 router.register(r'api/users', views.UserViewSet)
 
-
 urlpatterns = patterns('',
+    url(r'^api/$', 'ugc.api.views.api_root'),
     url(r'^', include(router.urls)),
 )
