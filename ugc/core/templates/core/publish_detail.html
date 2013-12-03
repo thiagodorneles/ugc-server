@@ -8,7 +8,11 @@
         <div class="user">{{ publish.user }}</div>
     </div>
     <div class="tags pull-right">
-        {{ publish.tags.all|join:', ' }}
+        {% for tag in publish.tags.all %}
+            <a href="/tags/{{ tag.tag }}/">{{ tag.tag }}</a>
+        {% empty %}
+            nenhym
+        {% endfor %}
     </div>
 </div>
 <div class="detail-content">
