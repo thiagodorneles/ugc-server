@@ -5,6 +5,7 @@ from rest_framework import viewsets, mixins
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
+from rest_framework import status
 from datetime import datetime
 
 class PublishViewSet(mixins.CreateModelMixin, 
@@ -15,16 +16,22 @@ class PublishViewSet(mixins.CreateModelMixin,
     queryset = Publish.objects.all().filter(status=True)
     serializer_class = PublishSerializer
 
-    # def pre_save(self, obj):
-    #     print '======================================== AQUI ========================================'
-    #     print obj.tags
-        # print 'entrou aqui'
-        # for t in obj.tags:
-        #     print t
-        #     print t.tag
-        #     if not (Tag.objects.filter(tag=t.tag)):
-        #         print 'salvou'
-        #         Tags.objects.create(tag=t.tag)
+    def create(self, request, *args, **kwargs):
+        tags = request.DATA.get('tags')
+        
+        for t in tags:
+            Tag.objects.get_or_create(tag=t)
+        
+        serializer = self.get_serializer(data=request.DATA)
+
+        if not serializer.is_valid():
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        self.pre_save(serializer.object)
+        self.object = serializer.save(force_insert=True)
+        self.post_save(self.object, created=True)
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
 class TagViewSet(mixins.CreateModelMixin, 
                  mixins.ListModelMixin,
