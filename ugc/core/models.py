@@ -1,6 +1,7 @@
 # coding: utf-8
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
+from django.core.urlresolvers import reverse as r
 
 class User(models.Model):
     name          = models.CharField(_('Nome'), max_length=100)
@@ -31,7 +32,7 @@ class Publish(models.Model):
     tags         = models.ManyToManyField('Tag', verbose_name=_('Tag'), related_name='publish', symmetrical=False)
     quant_views  = models.IntegerField(_(u'Visualizações'), default=0)
     quant_blocks = models.IntegerField(_('Bloqueios'), default=0)
-    user         = models.ForeignKey('User', verbose_name=_('Usuário'))
+    user         = models.ForeignKey('User', verbose_name=_(u'Usuário'))
     
     class Meta:
         unique_together = ('title', 'description')
