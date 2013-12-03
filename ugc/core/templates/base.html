@@ -1,3 +1,4 @@
+{% load widget_tweaks %}
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -183,10 +184,11 @@
     <section class="search-bar">
       <div class="container">
         <div class="col-sm-10">
-          <form class="navbar-form">        
+          <form class="navbar-form" action="/pesquisa/" method="POST">
+            {% csrf_token %}
             <div class="row">
               <div class="col-sm-10">
-                <input type="text" class="form-control" placeholder="Digite qualquer coisa para pesquisar (assunto, contexto, localização ...)">
+                {{ form.search|add_class:"form-control"|attr:"placeholder:Digite qualquer coisa para pesquisar (assunto, contexto, localização ...)" }}
               </div>
               <div class="col-sm-1">
                 <button type="submit" class="btn btn-primary">Pesquisar!</button>

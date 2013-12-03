@@ -3,7 +3,7 @@ from django.shortcuts import render
 from django.views.generic import TemplateView, DetailView
 from django.shortcuts import get_object_or_404
 from ugc.core.models import Publish, Tag
-from ugc.core.forms import ContactForm
+from ugc.core.forms import ContactForm, PublishSeachForm
 from django.db.models import Q
 
 # class HomepageView(TemplateView):
@@ -12,14 +12,13 @@ from django.db.models import Q
 class PublishDetailView(DetailView):
     model = Publish
 
-def list(request, publishs):
-    context = { 'publishs' : publishs }
+def list(request, publishs, search=None):
+    context = { 'publishs' : publishs, 'form': PublishSeachForm(), 'search': search }
     return render(request, 'core/publish_list.html', context)
-
+    
 def homepage(request):
     publishs = Publish.objects.all()
-    context = { 'publishs' : publishs }
-    return render(request, 'core/publish_list.html', context)
+    return list(request, publishs)
 
 def about(request):
     return render(request, 'about.html')
@@ -36,13 +35,14 @@ def contact(request):
 
     return render(request, 'contact.html', {'form' : ContactForm()} )
 
-def search(request, slug):
+def search(request):
+    slug = request.POST.get('search')
     publishs = Publish.objects.filter(Q(title__icontains=slug) | 
                                       Q(description__icontains=slug) |
                                       Q(city__icontains=slug) |
                                       Q(tags__tag__icontains=slug))
 
-    return list(request, publishs)
+    return list(request, publishs, slug)
 
 def search_tags(request, slug):
     publishs = Publish.objects.filter(tags__tag=slug)

@@ -9,9 +9,9 @@
     </div>
     <div class="tags pull-right">
         {% for tag in publish.tags.all %}
-            <a href="/tags/{{ tag.tag }}/">{{ tag.tag }}</a>
+            <a href="/tags/{{ tag.tag }}/">{{ tag.tag }}</a>; 
         {% empty %}
-            nenhym
+            <i>Sem tags</i>
         {% endfor %}
     </div>
 </div>

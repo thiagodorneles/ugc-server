@@ -8,7 +8,8 @@ urlpatterns = patterns('ugc.core.views',
     url(r'^contato/$', 'contact', name='contact'),
     # url(r'^publicacao/(\d+)/$', 'detail', name='detail'),
     url(r'^publicacao/(?P<pk>\d+)/$', PublishDetailView.as_view(), name='detail'),
-    url(r'^pesquisa/(?P<slug>[\d\w]+)/$', 'search', name='search'),
+    # url(r'^pesquisa/(?P<slug>[\d\w]+)/$', 'search', name='search'),
+    url(r'^pesquisa/$', 'search', name='search'),
     url(r'^tags/(?P<slug>[\d\w]+)/$', 'search_tags', name='search_tags'),
     
 )

@@ -1,5 +1,8 @@
 {% extends 'base.html' %}
 {% block content %}
+  {% if search %}
+    Última pesquisa realizada: {{ search }}
+  {% endif %}
   <h6>Últimas notícias</h6>
   <div id="timeline" data-columns>
   {% for publish in publishs %}
@@ -11,7 +14,7 @@
       </h6>
       {{ publish.description|truncatewords:50 }}
       <div class="info">
-        <div class="user">Fulano</div>
+        <div class="user">{{ publish.user }}</div>
         <div class="data">{{ publish.created_at|date:"d/m/Y" }}</div>          
       </div>
     </div>

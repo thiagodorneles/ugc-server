@@ -1,6 +1,7 @@
 # coding: utf-8
 from django import forms
 from django.core.mail import send_mail
+from ugc.core.models import Publish
 
 class ContactForm(forms.Form):
     name = forms.CharField(max_length=50)
@@ -17,4 +18,6 @@ class ContactForm(forms.Form):
 
         send_mail(  subject=subject, message=message, from_email=self.cleaned_data.get('email'), recipient_list=[to] )
 
+class PublishSeachForm(forms.Form):
+    search = forms.CharField(max_length=100, required=True)
 
