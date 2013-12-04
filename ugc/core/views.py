@@ -9,8 +9,13 @@ from django.db.models import Q
 # class HomepageView(TemplateView):
 #     template_name = ''
 
-class PublishDetailView(DetailView):
-    model = Publish
+def detail(request, pk):
+    publish = Publish.objects.get(pk=pk)
+    publish.update_views()
+    return render(request, 'core/publish_detail.html', { 'publish' : publish })
+
+# class PublishDetailView(DetailView):
+#     model = Publish
 
 def list(request, publishs, search=None):
     context = { 'publishs' : publishs, 'form': PublishSeachForm(), 'search': search }
