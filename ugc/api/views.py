@@ -7,6 +7,7 @@ from rest_framework.response import Response
 from rest_framework.reverse import reverse
 from rest_framework import status
 from datetime import datetime
+from geopy.geocoders import GoogleV3
 
 class PublishViewSet(mixins.CreateModelMixin, 
                      mixins.ListModelMixin,
@@ -18,14 +19,20 @@ class PublishViewSet(mixins.CreateModelMixin,
 
     def create(self, request, *args, **kwargs):
         tags = request.DATA.get('tags')
-        
-        for t in tags:
-            Tag.objects.get_or_create(tag=t)
+
+        if tags:
+            for t in tags:
+                Tag.objects.get_or_create(tag=t)
         
         serializer = self.get_serializer(data=request.DATA)
 
         if not serializer.is_valid():
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        if (obj.location):
+            geolocator = GoogleV3()
+            address, (latitude, longitude) = geolocator.reverse(obj.location)[0]
+            obj.city = address.split(',')[2].split('-')[0].strip()
 
         self.pre_save(serializer.object)
         self.object = serializer.save(force_insert=True)
