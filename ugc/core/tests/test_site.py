@@ -51,6 +51,11 @@ class DetailTest(TestCase):
         publish = self.resp.context['publish']
         self.assertIsInstance(publish, Publish)
 
+    def test_quant_views(self):
+        'Publish must have 1 quant_views'
+        publish = self.resp.context['publish']
+        self.assertEqual(1, publish.quant_views)
+
 class AboutTest(TestCase):
     def setUp(self):
         self.resp = self.client.get(r('core:about'))
