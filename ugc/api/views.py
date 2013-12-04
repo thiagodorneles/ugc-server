@@ -17,7 +17,12 @@ class PublishViewSet(mixins.CreateModelMixin,
     queryset = Publish.objects.all().filter(status=True)
     serializer_class = PublishSerializer
 
+
     def retrieve(self, request, *args, **kwargs):
+        """
+        Feito ovewrite no metodo retrieve que pertence ao RetrieveModelMixin
+        para quando buscar um Publish especifico atualizar a propriedade quant_views
+        """
         self.object = self.get_object()
         self.object.update_views()
         serializer = self.get_serializer(self.object)
@@ -25,6 +30,11 @@ class PublishViewSet(mixins.CreateModelMixin,
 
 
     def create(self, request, *args, **kwargs):
+        """
+        Ovewrite no metodo create que pertence ao CreateModelMixin
+        para antes de criar uma nova Publish percorrer todas as tags
+        recebidas e criar as que nao existam.
+        """
         tags = request.DATA.get('tags')
 
         if tags:
