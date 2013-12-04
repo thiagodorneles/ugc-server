@@ -18,7 +18,13 @@ class TagSerializer(serializers.ModelSerializer):
         model = Tag
         fields = ('tag', 'created_at', 'status')
 
+class PublishUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Publish
+        fields = ('id', 'title', 'quant_views', 'quant_blocks')
+
 class UserSerializer(serializers.ModelSerializer):
+    publishs = PublishUserSerializer(many=True, source='publish_set')
     class Meta:
         model = User
-        fields = ('name', 'email', 'created_at')
+        fields = ('name', 'email', 'created_at', 'publishs')
