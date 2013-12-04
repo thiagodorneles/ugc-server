@@ -17,6 +17,13 @@ class PublishViewSet(mixins.CreateModelMixin,
     queryset = Publish.objects.all().filter(status=True)
     serializer_class = PublishSerializer
 
+    def retrieve(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        self.object.update_views()
+        serializer = self.get_serializer(self.object)
+        return Response(serializer.data)
+
+
     def create(self, request, *args, **kwargs):
         tags = request.DATA.get('tags')
 
