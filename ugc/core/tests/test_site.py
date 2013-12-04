@@ -2,11 +2,12 @@
 from django.test import TestCase
 from django.core.urlresolvers import reverse as r
 from ugc.core.forms import ContactForm
-from ugc.core.models import Publish
+from ugc.core.models import Publish, User
 
 class HomepageTest(TestCase):
     def setUp(self):
-        Publish.objects.create(title='Noticia', description='Descricao')
+        u = User.objects.create(name='Thiago', email='email@email.com')
+        Publish.objects.create(title='Noticia', description='Descricao', user=u)
         self.resp = self.client.get(r('core:homepage'))
 
     def test_get(self):
@@ -20,7 +21,7 @@ class HomepageTest(TestCase):
     def test_html(self):
         'Html must contain input controls'
         self.assertContains(self.resp, '<form')
-        self.assertContains(self.resp, '<input', 1)
+        self.assertContains(self.resp, '<input', 2)
         self.assertContains(self.resp, '<button', 1)
         self.assertContains(self.resp, 'type="text"', 1)
         self.assertContains(self.resp, 'type="submit"', 1)
@@ -32,7 +33,8 @@ class HomepageTest(TestCase):
 
 class DetailTest(TestCase):
     def setUp(self):
-        publish = Publish(title='Noticia teste', description='Descricao da noticia')
+        u = User.objects.create(name='Thiago', email='email@email.com')
+        publish = Publish(title='Noticia teste', description='Descricao da noticia', user=u)
         publish.save()
         self.resp = self.client.get(r('core:detail', args=[publish.id]))
 
@@ -93,7 +95,7 @@ class ContactTest(TestCase):
         self.assertContains(self.resp, '<input', 4)
         self.assertContains(self.resp, '<textarea', 1)
         self.assertContains(self.resp, '<button', 2)
-        self.assertContains(self.resp, 'type="text"', 3)
+        self.assertContains(self.resp, 'type="text"', 2)
         self.assertContains(self.resp, 'type="submit"', 2)
 
 class ContactPostTest(TestCase):
@@ -103,6 +105,10 @@ class ContactPostTest(TestCase):
                     message='mensagem de teste')
         self.resp = self.client.post(r('core:contact'), data)
 
-    # def test_post(self):
-    #     'Valid POST should redirect to /contato/sucesso/'
-    #     self.assertEqual(302, self.resp.status_code)
+    def test_post(self):
+        'Valid POST should redirect to /contato/'
+        self.assertEqual(200, self.resp.status_code)
+
+    def test_context(self):
+        s = self.resp.context['sended']
+        self.assertEqual(s, True)

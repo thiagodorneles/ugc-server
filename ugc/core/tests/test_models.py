@@ -2,12 +2,14 @@
 from django.test import TestCase
 from datetime import datetime
 from django.db import IntegrityError
-from ugc.core.models import Publish, Tag
+from ugc.core.models import Publish, Tag, User
 
 class PublishTest(TestCase):
     def setUp(self):
+        u = User.objects.create(name='Thiago', email='email@email.com')
         self.publish = Publish(title='Noticia teste', 
-                               description='Descricao da noticia')
+                               description='Descricao da noticia',
+                               user=u)
 
     def test_create(self):
         'Publish must have title and description'
@@ -38,8 +40,10 @@ class PublishTest(TestCase):
 
 class PublishUniqueTest(TestCase):
     def setUp(self):
+        u = User.objects.create(name='Thiago', email='email@email.com')
         Publish.objects.create(title='Noticia teste', 
-                               description='Descricao da noticia')
+                               description='Descricao da noticia',
+                               user=u)
 
     def test_unique(self):
         'Title and description together must be unique'
