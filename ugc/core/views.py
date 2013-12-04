@@ -15,7 +15,7 @@ class PublishDetailView(DetailView):
 def list(request, publishs, search=None):
     context = { 'publishs' : publishs, 'form': PublishSeachForm(), 'search': search }
     return render(request, 'core/publish_list.html', context)
-    
+
 def homepage(request):
     publishs = Publish.objects.all()
     return list(request, publishs)
@@ -24,6 +24,7 @@ def about(request):
     return render(request, 'about.html')
 
 def contact(request):
+    sended = False
     if request.method == 'POST':
         form = ContactForm(request.POST)
         if form.is_valid():
@@ -33,7 +34,7 @@ def contact(request):
     else:
         form = ContactForm()
 
-    return render(request, 'contact.html', {'form' : ContactForm()} )
+    return render(request, 'contact.html', {'form' : ContactForm(), 'sended' : sended } )
 
 def search(request):
     slug = request.POST.get('search')

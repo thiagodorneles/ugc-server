@@ -16,7 +16,10 @@ class ContactForm(forms.Form):
          E-mail: %(email)s
          Mensagem: %(message)s """ % self.cleaned_data
 
-        send_mail(  subject=subject, message=message, from_email=self.cleaned_data.get('email'), recipient_list=[to] )
+        print 'message = '
+        print message
+
+        send_mail(subject=subject, message=message, from_email=self.cleaned_data.get('email'), recipient_list=[to] )
 
 class PublishSeachForm(forms.Form):
     search = forms.CharField(max_length=100, required=True)
