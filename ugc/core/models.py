@@ -3,6 +3,7 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.core.urlresolvers import reverse as r
 
+
 class User(models.Model):
     name          = models.CharField(_('Nome'), max_length=100)
     email         = models.EmailField(_('Email'), max_length=100)
@@ -42,6 +43,10 @@ class Publish(models.Model):
         
     def __unicode__(self):
         return self.title
+
+    def update_views(self):
+        self.quant_views += 1
+        self.save()
 
     @property
     def user_name(self):
