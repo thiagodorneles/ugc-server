@@ -48,6 +48,12 @@ class Publish(models.Model):
         self.quant_views += 1
         self.save()
 
+    def update_block(self):
+        self.quant_blocks += 1
+        if self.quant_blocks >= 3:
+            self.status = False
+        self.save()
+
     @property
     def user_name(self):
         """
