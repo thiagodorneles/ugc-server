@@ -10,7 +10,7 @@ class PublishSerializer(serializers.ModelSerializer):
     class Meta:
         model = Publish
     	resource_name = 'publishs'
-        fields = ('title', 'description', 'created_at', 'location', 'city', 'status', 'tags', 
+        fields = ('id', 'title', 'description', 'created_at', 'location', 'city', 'status', 'tags', 
                   'user', 'user_name', 'quant_views', 'quant_blocks', )
 
 class TagSerializer(serializers.ModelSerializer):
