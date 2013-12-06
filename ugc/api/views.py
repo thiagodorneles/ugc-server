@@ -48,11 +48,11 @@ class PublishViewSet(mixins.CreateModelMixin,
 
         if not serializer.is_valid():
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-        if (obj.location):
+        
+        if (serializer.object.location):
             geolocator = GoogleV3()
-            address, (latitude, longitude) = geolocator.reverse(obj.location)[0]
-            obj.city = address.split(',')[2].split('-')[0].strip()
+            address, (latitude, longitude) = geolocator.reverse(serializer.object.location)[0]
+            serializer.object.city = address.split(',')[2].split('-')[0].strip()
 
         self.pre_save(serializer.object)
         self.object = serializer.save(force_insert=True)
