@@ -78,7 +78,6 @@ class UserViewSet(mixins.CreateModelMixin,
 # @csrf_exempt
 @api_view(['POST'])
 def publish_block(request):
-    print '================ AQUI ==================\n'
     pk = request.DATA.get('id')
 
     try:
