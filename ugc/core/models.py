@@ -10,14 +10,19 @@ class User(models.Model):
     created_at    = models.DateTimeField(_('Criado em'), auto_now_add=True)
     image_url     = models.CharField(_('Avatar caminho'), max_length=100, blank=True)
     # Twitter
-    twitter_user  = models.CharField(_('Twitter username'), max_length=50, blank=True)
-    twitter_id    = models.CharField(_('Twitter ID'), max_length=100, blank=True)
-    twitter_token = models.CharField(_('Twitter Token'), max_length=100, blank=True)
+    twitter_user  = models.CharField(_('Twitter username'), max_length=50, blank=True, null=True)
+    twitter_id    = models.CharField(_('Twitter ID'), max_length=100, blank=True, null=True)
+    twitter_token = models.TextField(_('Twitter Token'), blank=True, null=True)
+    # facebook
+    facebook_user  = models.CharField(_('Facebook username'), max_length=50, blank=True, null=True)
+    facebook_id    = models.CharField(_('Facebook ID'), max_length=100, blank=True, null=True)
+    facebook_token = models.TextField(_('Facebook Token'), blank=True, null=True)
 
     class Meta:
         ordering = ['-created_at']
         verbose_name = _(u'Usuário')
         verbose_name_plural = _(u'Usuários')
+        unique_together = ('name', 'twitter_id', 'facebook_id')
 
     def __unicode__(self):
         return self.name
