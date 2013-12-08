@@ -12,6 +12,7 @@ from datetime import datetime
 from geopy.geocoders import GoogleV3
 from ugc.core.models import Publish, Tag, User
 from ugc.api.serializers import PublishSerializer, TagSerializer, UserSerializer
+from django.db.models import Q
 
 class PublishViewSet(mixins.CreateModelMixin, 
                      mixins.ListModelMixin,
@@ -74,6 +75,50 @@ class UserViewSet(mixins.CreateModelMixin,
                   viewsets.GenericViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+
+    def create(self, request, *args, **kwargs):
+        """
+        Ovewrite no metodo create que pertence ao CreateModelMixin
+        para verificar se ja existe algum usuario com o twitter_id ou facebook_id
+        """
+
+        twitter_id  = request.DATA.get('twitter_id')
+        facebook_id = request.DATA.get('facebook_id')
+
+        print '======================== ENTROU AQUI ======================== \n'
+
+        try:
+            user = User.objects.get(Q(twitter_id=str(twitter_id)) | Q(facebook_id=str(facebook_id)))
+        
+            print '======================== Encontrou o usuario\n'
+            if user.twitter_id and not user.facebook_id and facebook_id:
+                print '======================== Tem Twitter e nao Facebook \n'
+                user.facebook_id    = request.DATA.get('facebook_id')
+                user.facebook_token = request.DATA.get('facebook_token')
+                user.facebook_user  = request.DATA.get('facebook_user')
+            elif user.facebook_id and not user.twitter_id and twitter_id:
+                print '======================== Tem Facebook e nao Twitter \n'
+                user.twitter_id    = request.DATA.get('twitter_id')
+                user.twitter_token = request.DATA.get('twitter_token')
+                user.twitter_user  = request.DATA.get('twitter_user')
+            # 
+            user.save()
+            serializer = UserSerializer(user)
+        except User.DoesNotExist:
+
+            serializer = self.get_serializer(data=request.DATA)
+            print serializer.data
+            
+            if not serializer.is_valid():
+                print serializer.errors
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+            self.pre_save(serializer.object)
+            self.object = serializer.save(force_insert=True)
+            self.post_save(self.object, created=True)
+
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
 # @csrf_exempt
 @api_view(['POST'])
