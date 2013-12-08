@@ -85,23 +85,23 @@ class UserViewSet(mixins.CreateModelMixin,
         twitter_id  = request.DATA.get('twitter_id')
         facebook_id = request.DATA.get('facebook_id')
 
-        print '======================== ENTROU AQUI ======================== \n'
-
         try:
             user = User.objects.get(Q(twitter_id=str(twitter_id)) | Q(facebook_id=str(facebook_id)))
         
-            print '======================== Encontrou o usuario\n'
             if user.twitter_id and not user.facebook_id and facebook_id:
-                print '======================== Tem Twitter e nao Facebook \n'
                 user.facebook_id    = request.DATA.get('facebook_id')
                 user.facebook_token = request.DATA.get('facebook_token')
                 user.facebook_user  = request.DATA.get('facebook_user')
             elif user.facebook_id and not user.twitter_id and twitter_id:
-                print '======================== Tem Facebook e nao Twitter \n'
                 user.twitter_id    = request.DATA.get('twitter_id')
                 user.twitter_token = request.DATA.get('twitter_token')
                 user.twitter_user  = request.DATA.get('twitter_user')
             # 
+            if user.twitter_id:
+                user.twitter_user  = request.DATA.get('twitter_user')
+                user.twitter_token = request.DATA.get('twitter_token')
+                user.image_url     = request.DATA.get('image_url')
+
             user.save()
             serializer = UserSerializer(user)
         except User.DoesNotExist:
