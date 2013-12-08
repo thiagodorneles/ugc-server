@@ -24,10 +24,10 @@ class PublishUserSerializer(serializers.ModelSerializer):
         fields = ('id', 'title', 'quant_views', 'quant_blocks')
 
 class UserSerializer(serializers.ModelSerializer):
-    results = PublishSerializer(many=True, source='publish_set', read_only=True)
+    publishs = PublishSerializer(many=True, source='publish_set', read_only=True)
     class Meta:
         model = User
         fields = ('id', 'name', 'email', 'created_at', 'image_url', 
                   'twitter_user', 'twitter_id', 'twitter_token', 
                   'facebook_user', 'facebook_id', 'facebook_token',
-                  'results')
+                  'publishs')
