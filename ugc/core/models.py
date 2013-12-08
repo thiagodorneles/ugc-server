@@ -6,7 +6,7 @@ from django.core.urlresolvers import reverse as r
 
 class User(models.Model):
     name          = models.CharField(_('Nome'), max_length=100)
-    email         = models.EmailField(_('Email'), max_length=100)
+    email         = models.EmailField(_('Email'), max_length=100, blank=True, null=True)
     created_at    = models.DateTimeField(_('Criado em'), auto_now_add=True)
     image_url     = models.CharField(_('Avatar caminho'), max_length=100, blank=True)
     # Twitter
