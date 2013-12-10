@@ -9,3 +9,5 @@ django-widget-tweaks==1.3
 django-suit
 djangorestframework==2.3.9
 geopy==0.96.2
+Pillow==2.2.1
+django-thumbs=0.4
