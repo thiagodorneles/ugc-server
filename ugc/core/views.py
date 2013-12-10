@@ -10,19 +10,21 @@ from django.db.models import Q
 #     template_name = ''
 
 def detail(request, pk):
+    tags = Tag.objects.all().filter(status=True)
     publish = Publish.objects.get(pk=pk)
     publish.update_views()
-    return render(request, 'core/publish_detail.html', { 'publish' : publish })
+    return render(request, 'core/publish_detail.html', { 'publish' : publish, 'tags' : tags, })
 
 # class PublishDetailView(DetailView):
 #     model = Publish
 
 def list(request, publishs, search=None):
-    context = { 'publishs' : publishs, 'form': PublishSeachForm(), 'search': search }
+    tags = Tag.objects.all().filter(status=True)
+    context = { 'publishs' : publishs, 'tags' : tags, 'form': PublishSeachForm(), 'search': search }
     return render(request, 'core/publish_list.html', context)
 
 def homepage(request):
-    publishs = Publish.objects.all()
+    publishs = Publish.objects.all().filter(status=True)
     return list(request, publishs)
 
 def about(request):
@@ -46,10 +48,10 @@ def search(request):
     publishs = Publish.objects.filter(Q(title__icontains=slug) | 
                                       Q(description__icontains=slug) |
                                       Q(city__icontains=slug) |
-                                      Q(tags__tag__icontains=slug))
+                                      Q(tags__tag__icontains=slug), status=True).distinct()
 
     return list(request, publishs, slug)
 
 def search_tags(request, slug):
-    publishs = Publish.objects.filter(tags__tag=slug)
+    publishs = Publish.objects.filter(tags__tag=slug, status=True)
     return list(request, publishs)
