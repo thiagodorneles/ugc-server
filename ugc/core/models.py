@@ -96,10 +96,14 @@ class Publish(models.Model):
 
     @property
     def latitude(self):
+        if not self.location:
+            return 0
         return float(self.location.split(',')[0])
 
     @property
     def longitude(self):
+        if not self.location:
+            return 0
         return float(self.location.split(',')[1])
 
     @property
