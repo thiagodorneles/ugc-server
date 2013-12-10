@@ -4,3 +4,4 @@
 *.sublime-project
 *.sublime-workspace
 ugc/database.db
+ugc/media/*
