@@ -7,11 +7,11 @@ from rest_framework.response import Response
 from rest_framework.reverse import reverse
 from rest_framework import status
 from rest_framework.renderers import JSONRenderer
-from rest_framework.parsers import JSONParser
+from rest_framework.parsers import JSONParser, FileUploadParser
 from datetime import datetime
 from geopy.geocoders import GoogleV3
-from ugc.core.models import Publish, Tag, User
-from ugc.api.serializers import PublishSerializer, TagSerializer, UserSerializer
+from ugc.core.models import Publish, Tag, User, Media
+from ugc.api.serializers import PublishSerializer, TagSerializer, UserSerializer, MediaSerializer
 from django.db.models import Q
 
 class PublishViewSet(mixins.CreateModelMixin, 
@@ -107,10 +107,8 @@ class UserViewSet(mixins.CreateModelMixin,
         except User.DoesNotExist:
 
             serializer = self.get_serializer(data=request.DATA)
-            print serializer.data
             
             if not serializer.is_valid():
-                print serializer.errors
                 return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
             self.pre_save(serializer.object)
@@ -133,6 +131,26 @@ def publish_block(request):
     serializer = PublishSerializer(publish, data=request.DATA)
     serializer.object.update_block()
     return Response(serializer.data)
+
+# class PublishUploadViewSet(mixins.CreateModelMixin, 
+#                            mixins.ListModelMixin,
+#                            mixins.RetrieveModelMixin,
+#                            viewsets.GenericViewSet):
+#     serializer_class = MediaSerializer
+#     parser_class = (FileUploadParser,)
+
+
+
+@api_view(['POST'])
+def publish_image(request):
+    publish_id = request.DATA.get('publish_id')
+
+    for filename, file in request.FILES.iteritems():
+        name = request.FILES[filename].name
+        media = Media(image=file, publish_id=publish_id)
+        media.save()
+
+    return Response(status=201)
 
 # @api_view(('GET',))
 # def api_root(request, format=None):
