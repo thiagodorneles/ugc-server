@@ -32,6 +32,17 @@
     img {
       max-width: 100%;
     }
+    .medias {
+      margin-top: 20px;
+    }
+    .medias img {
+      max-width: 200px;
+    }
+    #map-canvas {
+      width: 100%;
+      height: 400px;
+      border: 1px solid gray;
+    }
     .jumbotron-midnight {
       margin: 0;
       background: #34495e;
@@ -55,6 +66,15 @@
       margin-right: 20px;
       float: left;
     } 
+    .ultima-pesquisa {
+      display: block;
+      clear: both;
+      padding-top: 5px;
+      padding-bottom: 5px;
+      margin-bottom: 20px;
+      border-bottom: 1px solid gray;
+      font-size: 18px;
+    }
 
     .item {
       padding: 5px;
@@ -88,6 +108,15 @@
     .section-content {
       margin-top: 20px;
       margin-bottom: 20px;
+    }
+    .text {
+      display: inline-block;
+    }
+    .thumbnail {
+      float: left;
+      padding-right: 5px;
+      padding-bottom: 5px;
+      margin-right: 5px;
     }
 
     .tags ul {
@@ -172,7 +201,7 @@
               <li><a href="/contato/">Contato</a></li>
             </ul>
             <div class="appstore pull-right hidden-xs">
-              <a href="http://apple.com">
+              <a href="javascript:alert('Em breve disponível na AppStore!');">
                 <img src="/static/img/appstore.png" alt="">
               </a>
             </div>
@@ -188,7 +217,7 @@
             {% csrf_token %}
             <div class="row">
               <div class="col-sm-10">
-                {{ form.search|add_class:"form-control"|attr:"placeholder:Digite qualquer coisa para pesquisar (assunto, contexto, localização ...)" }}
+                <input id="search" name="search" type="text" class="form-control" placeholder="Digite qualquer coisa para pesquisar (assunto, contexto, localização ...)" />
               </div>
               <div class="col-sm-1">
                 <button type="submit" class="btn btn-primary">Pesquisar!</button>
@@ -201,46 +230,21 @@
     <!-- conteudo -->
     <section class="section-content">
       <div class="container">
-        <div class="col-md-10">
-          {% block content %}
-          {% endblock content %}
-        </div>
-        <div class="col-lg-2">
+        <div class="col-lg-2 pull-right">
           <h6>Tags</h6>
           <div class="tags">
+            {% if tags %}
             <ul>
-              <li value="100"><a href="">Tag 1</a></li>
-              <li value="100"><a href="">Tag 2</a></li>
-              <li value="100"><a href="">Tag 3</a></li>
-              <li value="100"><a href="">Tag 4</a></li>
-              <li value="100"><a href="">Tag 5</a></li>
-              <li value="100"><a href="">Tag 6</a></li>
-              <li value="100"><a href="">Tag 7</a></li>
-              <li value="100"><a href="">Tag 8</a></li>
-              <li value="100"><a href="">Tag 9</a></li>
-              <li value="100"><a href="">Tag 10</a></li>
-              <li value="100"><a href="">Tag 11</a></li>
-              <li value="100"><a href="">Tag 12</a></li>
-              <li value="100"><a href="">Tag 13</a></li>
-              <li value="100"><a href="">Tag 14</a></li>
-              <li value="100"><a href="">Tag 15</a></li>
-              <li value="100"><a href="">Tag 16</a></li>
-              <li value="100"><a href="">Tag 17</a></li>
-              <li value="100"><a href="">Tag 18</a></li>
-              <li value="100"><a href="">Tag 19</a></li>
-              <li value="100"><a href="">Tag 20</a></li>
-              <li value="100"><a href="">Tag 21</a></li>
-              <li value="100"><a href="">Tag 22</a></li>
-              <li value="100"><a href="">Tag 23</a></li>
-              <li value="100"><a href="">Tag 24</a></li>
-              <li value="100"><a href="">Tag 25</a></li>
-              <li value="100"><a href="">Tag 26</a></li>
-              <li value="100"><a href="">Tag 27</a></li>
-              <li value="100"><a href="">Tag 28</a></li>
-              <li value="100"><a href="">Tag 29</a></li>
-              <li value="100"><a href="">Tag 30</a></li>
+              {% for t in tags %}
+                <li values="{{ t.count }}"><a href="/tags/{{t.tag}}">{{t.tag}}</a></li>
+              {% endfor %}
             </ul>
+            {% endif %}
           </div>
+        </div>
+        <div class="col-md-10 col-lg-10 col-sm-12">
+          {% block content %}
+          {% endblock content %}
         </div>
       </div>
     </section>
@@ -268,14 +272,8 @@
 
   <script>
     $(function(){
-      $("ul").tagcloud({type:"list"}).find("li").tsort();
-
+      // $("ul").tagcloud({type:"list"}).find("li").tsort();
     });
-
-
   </script>
-
-
-  
 </body>
 </html>
