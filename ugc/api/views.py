@@ -42,7 +42,9 @@ class PublishViewSet(mixins.CreateModelMixin,
         tags = request.DATA.get('tags')
 
         if tags:
+            safe_chars = string.ascii_letters + string.digits + '_'
             for t in tags:
+                t =''.join([char if char in safe_chars else '' for char in t])
                 Tag.objects.get_or_create(tag=t)
         
         serializer = self.get_serializer(data=request.DATA)
