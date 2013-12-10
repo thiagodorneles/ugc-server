@@ -1,6 +1,6 @@
 # coding: utf-8
 from django.shortcuts import render
-from django.views.generic import TemplateView, DetailView
+# from django.views.generic import TemplateView, DetailView, FormView, ListView
 from django.shortcuts import get_object_or_404
 from ugc.core.models import Publish, Tag
 from ugc.core.forms import ContactForm, PublishSeachForm
@@ -53,4 +53,3 @@ def search(request):
 def search_tags(request, slug):
     publishs = Publish.objects.filter(tags__tag=slug)
     return list(request, publishs)
-
