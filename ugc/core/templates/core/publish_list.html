@@ -1,24 +1,38 @@
 {% extends 'base.html' %}
+
 {% block content %}
   {% if search %}
-    Última pesquisa realizada: {{ search }}
-  {% endif %}
-  <h6>Últimas notícias</h6>
-  <div id="timeline" data-columns>
-  {% for publish in publishs %}
-    <div class="item">
-      <h6>
-        <a href="/publicacao/{{ publish.id }}/">
-          {{ publish.title }}
-        </a>
-      </h6>
-      {{ publish.description|truncatewords:50 }}
-      <div class="info">
-        <div class="user">{{ publish.user }}</div>
-        <div class="data">{{ publish.created_at|date:"d/m/Y" }}</div>          
-      </div>
+    <div class="ultima-pesquisa">
+      Última pesquisa realizada: <i>{{ search }}</i>
     </div>
+  {% endif %}
+  {% if publishs %}
+    <h6>Últimas notícias</h6>
+    <div id="timeline" data-columns>
+    {% for publish in publishs %}
+      <div class="item">
+        <h6>
+          <a href="/publicacao/{{ publish.id }}/">
+            {{ publish.title }}
+          </a>
+        </h6>
+        <div class="text">
+          {% if publish.thumbnail %}
+            <div class="thumbnail">
+              <img src="{{ publish.thumbnail }}" alt="" />
+            </div>
+          {% endif %}
+          {{ publish.description|truncatewords:50 }}
+        </div>
+        <div class="info">
+          <div class="user">{{ publish.user }}</div>
+          <div class="data">{{ publish.created_at|date:"d/m/Y" }}</div>          
+        </div>
+      </div>
 
-  {% endfor %}
+    {% endfor %}
+  {% else %}
+    <i><h6>Nenhum registro encontrado!</h6></i>
+  {% endif %}
 
 {% endblock content %}
