@@ -88,6 +88,21 @@ class Publish(models.Model):
         return self.user.name
 
     @property
+    def thumbnail(self):
+        medias = self.media_set.order_by('pk')
+        if medias:
+            return medias[0].thumbnail.url
+        return ""
+
+    @property
+    def latitude(self):
+        return float(self.location.split(',')[0])
+
+    @property
+    def longitude(self):
+        return float(self.location.split(',')[1])
+
+    @property
     def thumbs(self):
         medias = self.media_set.all()
         if not medias:
@@ -107,7 +122,9 @@ class Tag(models.Model):
     def __unicode__(self):
         return self.tag
 
-
+    @property
+    def count(self):
+        return Publish.objects.filter(tags__tag=self.tag).count() + 100
 
 def path_and_rename(thumb=False):
     def wrapper(instance, filename):
