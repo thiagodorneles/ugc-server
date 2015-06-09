@@ -1,0 +1,6 @@
+languages:
+  JavaScript: false
+  Python: true
+exclude_paths:
+- "ugc/core/migrations/*"
+- "ugc/core/static/*"
